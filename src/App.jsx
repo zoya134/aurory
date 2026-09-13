@@ -615,6 +615,18 @@ function AllModelsPage() {
 }
 
 function ModelProfilePage({ model }) {
+  const galleryImages = model ? getGalleryImages(model) : []
+  const [activeImage, setActiveImage] = useState(galleryImages[0] || '')
+
+  const moveGallery = (direction) => {
+    const panel = document.querySelector('.profile-image-panel')
+    if (!panel) return
+
+    const nextIndex = Math.max(0, Math.min(galleryImages.length - 1, Math.round(panel.scrollLeft / panel.clientWidth) + direction))
+    panel.scrollTo({ left: nextIndex * panel.clientWidth, behavior: 'smooth' })
+    setActiveImage(galleryImages[nextIndex] || galleryImages[0])
+  }
+
   if (!model) {
     return (
       <>
@@ -642,26 +654,90 @@ function ModelProfilePage({ model }) {
     )
   }
 
-  const galleryImages = getGalleryImages(model)
-
   return (
     <>
       <Header />
 
       <main>
         <section className="profile-hero" aria-labelledby="profile-title">
-          <div className="profile-image-panel">
-            <img
-              className="profile-primary-image"
-              src={model.image}
-              alt={`${model.name} primary portfolio portrait`}
-            />
+          <a className="profile-back-link profile-back-link-top" href="/models">
+            Back to models
+          </a>
+
+          <div className="profile-gallery" aria-label={`${model.name} portfolio gallery`}>
+            <div className="profile-gallery-frame">
+              <button
+                className="profile-gallery-arrow profile-gallery-arrow-prev"
+                type="button"
+                onClick={() => moveGallery(-1)}
+                aria-label="Previous portfolio image"
+              >
+                &#8592;
+              </button>
+
+              <div
+                className="profile-image-panel"
+                onScroll={(event) => {
+                  const panel = event.currentTarget
+                  const nextIndex = Math.round(panel.scrollLeft / panel.clientWidth)
+                  setActiveImage(galleryImages[nextIndex] || galleryImages[0])
+                }}
+              >
+                <div className="profile-image-track">
+                  {galleryImages.map((image, index) => (
+                    <figure className="profile-image-slide" key={image}>
+                      <img
+                        className="profile-primary-image"
+                        src={image}
+                        alt={`${model.name} portfolio image ${index + 1}`}
+                      />
+                    </figure>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                className="profile-gallery-arrow profile-gallery-arrow-next"
+                type="button"
+                onClick={() => moveGallery(1)}
+                aria-label="Next portfolio image"
+              >
+                &#8594;
+              </button>
+            </div>
+
+            <div className="profile-gallery-controls" aria-label="Gallery position">
+              {galleryImages.map((image, index) => (
+                <button
+                  className={activeImage === image ? 'is-active' : ''}
+                  type="button"
+                  key={image}
+                  onClick={() => {
+                    setActiveImage(image)
+                    document
+                      .querySelector('.profile-image-panel')
+                      ?.scrollTo({ left: index * document.querySelector('.profile-image-panel').clientWidth, behavior: 'smooth' })
+                  }}
+                  aria-label={`Show portfolio image ${index + 1}`}
+                  aria-pressed={activeImage === image}
+                />
+              ))}
+            </div>
           </div>
 
           <div className="profile-summary">
-            <a className="profile-back-link" href="/models">
-              Back to models
-            </a>
+            <div className="profile-contact-panel">
+              <div>
+                <p className="eyebrow">Start a conversation</p>
+                <h2>Interested in working with {model.name}?</h2>
+                <p>Reach out through the representative to discuss availability, collaborations, and professional enquiries.</p>
+              </div>
+
+              <div className="contact-actions profile-contact-actions">
+                <a className="button button-primary" href={vendorContact.whatsapp} target="_blank" rel="noreferrer">WhatsApp</a>
+                <a className="button button-secondary" href={vendorContact.telegram} target="_blank" rel="noreferrer">Telegram</a>
+              </div>
+            </div>
 
             <div className="profile-title-block">
               <p className="eyebrow">Model profile</p>
@@ -699,67 +775,11 @@ function ModelProfilePage({ model }) {
               ))}
             </div>
 
-            <div className="representative-card">
-              <div>
-                <p className="eyebrow">Assigned representative</p>
 
-                <h2>{vendorContact.name}</h2>
-
-                <p>
-                  Contact the representative, not the model. Aurory does not
-                  handle enquiries, bookings, payments, or internal messages.
-                </p>
-              </div>
-
-              <div className="contact-actions profile-contact-actions">
-                <a
-                  className="button button-primary"
-                  href={vendorContact.whatsapp}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  WhatsApp
-                </a>
-
-                <a
-                  className="button button-secondary"
-                  href={vendorContact.telegram}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Telegram
-                </a>
-              </div>
-            </div>
           </div>
         </section>
 
-        <section
-          className="profile-gallery-section"
-          aria-labelledby="gallery-title"
-        >
-          <div className="section-heading">
-            <p className="eyebrow">Gallery</p>
 
-            <h2 id="gallery-title">Additional portfolio images</h2>
-
-            <p>
-              Sample gallery imagery reused from the current local model
-              directory.
-            </p>
-          </div>
-
-          <div className="profile-gallery">
-            {galleryImages.map((image, index) => (
-              <figure key={image}>
-                <img
-                  src={image}
-                  alt={`${model.name} sample portfolio gallery ${index + 1}`}
-                />
-              </figure>
-            ))}
-          </div>
-        </section>
       </main>
 
       <div className="mobile-contact-bar" aria-label="Representative contact">
