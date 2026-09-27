@@ -3,6 +3,8 @@ import './App.css'
 
 import { getActiveModels } from './lib/models'
 
+import Admin from './Admin'
+
 const cities = ['Mumbai', 'Delhi', 'Bengaluru', 'Goa', 'Hyderabad', 'Pune']
 
 const categories = [
@@ -767,6 +769,10 @@ function App() {
   }
 
   const pathname = window.location.pathname.replace(/\/+$/, '') || '/'
+
+  if (pathname === '/admin') {
+    return <Admin />
+  }
 
   const profileMatch = pathname.match(/^\/models\/([^/]+)$/)
   const profileModel = profileMatch
