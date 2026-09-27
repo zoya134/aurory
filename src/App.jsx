@@ -1,215 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import './App.css'
 
-const vendorContact = {
-  name: 'Sample Vendor: Aurory Talent Desk',
-  whatsapp:
-    'https://wa.me/919876543210?text=Hello%20Aurory%20Talent%20Desk%2C%20I%20would%20like%20to%20know%20more%20about%20a%20professional%20bikini%20model.',
-  telegram: 'https://t.me/aurorytalentdesk',
-}
-
-const featuredModels = [
-  {
-    id: 1,
-    name: 'Mira Kaul',
-    city: 'Mumbai',
-    category: 'Editorial Bikini',
-    detail:
-      'Professional bikini model with refined editorial, resortwear, and controlled studio portfolio work.',
-    biography:
-      'Mira is a professional bikini model focused on refined editorial swimwear, resortwear, and studio-led fashion campaigns. Her portfolio is built around composed posing, clean movement, and polished visual direction for premium brands.',
-    details: ['Editorial swimwear', 'Studio campaigns', 'Resortwear lookbooks'],
-    image:
-      'https://images.unsplash.com/photo-1599470609787-113eac30917d?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 2,
-    name: 'Anaya Rao',
-    city: 'Bengaluru',
-    category: 'Commercial Swimwear',
-    detail:
-      'Experienced in premium swimwear campaigns, lifestyle shoots, and polished brand content.',
-    biography:
-      'Anaya works across commercial swimwear and lifestyle productions, bringing a calm, brand-ready presence to e-commerce, social campaigns, and seasonal resort collections.',
-    details: ['Commercial swimwear', 'Lifestyle campaigns', 'Brand content'],
-    image:
-      'https://images.unsplash.com/photo-1592390140955-b250e159744a?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 3,
-    name: 'Sia Mehta',
-    city: 'Delhi',
-    category: 'Runway Swimwear',
-    detail:
-      'Confident runway presence for resort collections, designer swimwear, and fashion presentations.',
-    biography:
-      'Sia specializes in runway swimwear and fashion presentations, with a confident walk and strong understanding of designer-led resort collections, movement, and live showcase pacing.',
-    details: ['Runway swimwear', 'Fashion presentations', 'Designer resort collections'],
-    image:
-      'https://images.unsplash.com/photo-1625023489823-c9c1e36d6f2b?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 4,
-    name: 'Ira Sen',
-    city: 'Goa',
-    category: 'Resort Lifestyle',
-    detail:
-      'Natural-light specialist for beachwear, resort, travel, and contemporary lifestyle productions.',
-    biography:
-      'Ira is suited to natural-light resort and travel productions, with experience in beachwear, contemporary lifestyle imagery, and destination-led editorial shoots.',
-    details: ['Resort lifestyle', 'Travel campaigns', 'Natural-light shoots'],
-    image:
-      'https://images.unsplash.com/photo-1612367939117-84bc4cd00c48?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 21,
-    name: 'Anaya Rao',
-    city: 'Bengaluru',
-    category: 'Commercial Swimwear',
-    detail:
-      'Experienced in premium swimwear campaigns, lifestyle shoots, and polished brand content.',
-    biography:
-      'Anaya works across commercial swimwear and lifestyle productions, bringing a calm, brand-ready presence to e-commerce, social campaigns, and seasonal resort collections.',
-    details: ['Commercial swimwear', 'Lifestyle campaigns', 'Brand content'],
-    image:
-      'https://images.unsplash.com/photo-1724606854879-9321f9340a89?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 22,
-    name: 'Anaya Rao',
-    city: 'Bengaluru',
-    category: 'Commercial Swimwear',
-    detail:
-      'Experienced in premium swimwear campaigns, lifestyle shoots, and polished brand content.',
-    biography:
-      'Anaya works across commercial swimwear and lifestyle productions, bringing a calm, brand-ready presence to e-commerce, social campaigns, and seasonal resort collections.',
-    details: ['Commercial swimwear', 'Lifestyle campaigns', 'Brand content'],
-    image:
-      'https://images.unsplash.com/photo-1611699082439-a8de44ba565f?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 23,
-    name: 'Anaya Rao',
-    city: 'Bengaluru',
-    category: 'Commercial Swimwear',
-    detail:
-      'Experienced in premium swimwear campaigns, lifestyle shoots, and polished brand content.',
-    biography:
-      'Anaya works across commercial swimwear and lifestyle productions, bringing a calm, brand-ready presence to e-commerce, social campaigns, and seasonal resort collections.',
-    details: ['Commercial swimwear', 'Lifestyle campaigns', 'Brand content'],
-    image:
-      'https://images.unsplash.com/photo-1605248259586-a64eb06b6970?auto=format&fit=crop&w=900&q=80',
-  }
-]
-
-const moreModels = [
-  {
-    id: 19,
-    name: 'Mira Kaul',
-    city: 'Mumbai',
-    category: 'Editorial Bikini',
-    detail:
-      'Professional bikini model with refined editorial, resortwear, and controlled studio portfolio work.',
-    biography:
-      'Mira is a professional bikini model focused on refined editorial swimwear, resortwear, and studio-led fashion campaigns. Her portfolio is built around composed posing, clean movement, and polished visual direction for premium brands.',
-    details: ['Editorial swimwear', 'Studio campaigns', 'Resortwear lookbooks'],
-    image:
-      'https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 20,
-    name: 'Anaya Rao',
-    city: 'Bengaluru',
-    category: 'Commercial Swimwear',
-    detail:
-      'Experienced in premium swimwear campaigns, lifestyle shoots, and polished brand content.',
-    biography:
-      'Anaya works across commercial swimwear and lifestyle productions, bringing a calm, brand-ready presence to e-commerce, social campaigns, and seasonal resort collections.',
-    details: ['Commercial swimwear', 'Lifestyle campaigns', 'Brand content'],
-    image:
-      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 30,
-    name: 'Sia Mehta',
-    city: 'Delhi',
-    category: 'Runway Swimwear',
-    detail:
-      'Confident runway presence for resort collections, designer swimwear, and fashion presentations.',
-    biography:
-      'Sia specializes in runway swimwear and fashion presentations, with a confident walk and strong understanding of designer-led resort collections, movement, and live showcase pacing.',
-    details: ['Runway swimwear', 'Fashion presentations', 'Designer resort collections'],
-    image:
-      'https://images.unsplash.com/photo-1513379733131-47fc74b45fc7?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 40,
-    name: 'Ira Sen',
-    city: 'Goa',
-    category: 'Resort Lifestyle',
-    detail:
-      'Natural-light specialist for beachwear, resort, travel, and contemporary lifestyle productions.',
-    biography:
-      'Ira is suited to natural-light resort and travel productions, with experience in beachwear, contemporary lifestyle imagery, and destination-led editorial shoots.',
-    details: ['Resort lifestyle', 'Travel campaigns', 'Natural-light shoots'],
-    image:
-      'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 5,
-    name: 'Naina Shah',
-    city: 'Hyderabad',
-    category: 'Fitness Swimwear',
-    detail:
-      'Athletic bikini model suited for wellness, active swimwear, and resort fitness campaigns.',
-    biography:
-      'Naina brings an athletic, composed presence to wellness swimwear, active resort campaigns, and clean fitness-oriented productions for premium visual brands.',
-    details: ['Fitness swimwear', 'Wellness campaigns', 'Active resort shoots'],
-    image:
-      'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 6,
-    name: 'Leah Dsouza',
-    city: 'Pune',
-    category: 'Beauty Swimwear',
-    detail:
-      'Polished camera presence for beauty-led swimwear editorials and clean commercial shoots.',
-    biography:
-      'Leah focuses on beauty-led swimwear and polished commercial imagery, pairing expressive camera work with a refined approach to close-up and campaign direction.',
-    details: ['Beauty swimwear', 'Commercial editorials', 'Close-up campaign work'],
-    image:
-      'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 7,
-    name: 'Tara Kapoor',
-    city: 'Mumbai',
-    category: 'Resort Lifestyle',
-    detail:
-      'Experienced in destination resort, beachwear, and high-end hospitality campaign imagery.',
-    biography:
-      'Tara works well for destination resortwear, premium hospitality visuals, and beachwear campaigns that need relaxed, confident, editorial-quality imagery.',
-    details: ['Destination resortwear', 'Hospitality campaigns', 'Beachwear editorials'],
-    image:
-      'https://images.unsplash.com/photo-1509967419530-da38b4704bc6?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 8,
-    name: 'Rhea Nair',
-    city: 'Goa',
-    category: 'Commercial Swimwear',
-    detail:
-      'Reliable commercial model for swimwear catalogues, social campaigns, and lookbook shoots.',
-    biography:
-      'Rhea is a reliable commercial swimwear model for catalogues, lookbooks, and social-first productions where consistency, clarity, and brand fit matter.',
-    details: ['Swimwear catalogues', 'Lookbook shoots', 'Social campaigns'],
-    image:
-      'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=80',
-  },
-]
-
-const allModels = [...featuredModels, ...moreModels]
+import { getActiveModels } from './lib/models'
 
 const cities = ['Mumbai', 'Delhi', 'Bengaluru', 'Goa', 'Hyderabad', 'Pune']
 
@@ -236,14 +28,22 @@ function getInitialFilter(key, fallback) {
 }
 
 function getProfileUrl(model) {
-  return `/models/${model.id}`
+  return `/models/${encodeURIComponent(model.slug)}`
 }
 
-function getGalleryImages(model) {
+function getGalleryImages(model, models) {
+  const gallery = Array.isArray(model.gallery) ? model.gallery : []
+
   return [
     model.image,
-    ...allModels.filter((item) => item.id !== model.id).map((item) => item.image),
-  ].slice(0, 4)
+    ...gallery,
+    ...models
+      .filter((item) => item.id !== model.id)
+      .map((item) => item.image),
+  ]
+    .filter(Boolean)
+    .filter((image, index, items) => items.indexOf(image) === index)
+    .slice(0, 4)
 }
 
 function Header() {
@@ -353,7 +153,7 @@ function ModelCard({ model }) {
         <div className="model-card-actions" aria-label={`${model.name} contact actions`}>
           <a
             className="button button-light"
-            href={vendorContact.whatsapp}
+            href={model.vendorContact?.whatsapp || '#'}
             target="_blank"
             rel="noreferrer"
             onClick={keepCardOpen}
@@ -364,7 +164,7 @@ function ModelCard({ model }) {
 
           <a
             className="button button-light"
-            href={vendorContact.telegram}
+            href={model.vendorContact?.telegram || '#'}
             target="_blank"
             rel="noreferrer"
             onClick={keepCardOpen}
@@ -469,7 +269,7 @@ function ModelRow({ id, eyebrow, title, description, models }) {
   )
 }
 
-function AllModelsPage() {
+function AllModelsPage({ models }) {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCity, setSelectedCity] = useState(
     getInitialFilter('city', 'All cities'),
@@ -481,7 +281,7 @@ function AllModelsPage() {
   const filteredModels = useMemo(() => {
     const normalizedSearch = searchTerm.trim().toLowerCase()
 
-    return allModels.filter((model) => {
+    return models.filter((model) => {
       const content = [model.name, model.city, model.category, model.detail]
         .join(' ')
         .toLowerCase()
@@ -614,8 +414,8 @@ function AllModelsPage() {
   )
 }
 
-function ModelProfilePage({ model }) {
-  const galleryImages = model ? getGalleryImages(model) : []
+function ModelProfilePage({ model, models }) {
+  const galleryImages = model ? getGalleryImages(model, models) : []
   const [activeImage, setActiveImage] = useState(galleryImages[0] || '')
 
   const moveGallery = (direction) => {
@@ -734,8 +534,8 @@ function ModelProfilePage({ model }) {
               </div>
 
               <div className="contact-actions profile-contact-actions">
-                <a className="button button-primary" href={vendorContact.whatsapp} target="_blank" rel="noreferrer">WhatsApp</a>
-                <a className="button button-secondary" href={vendorContact.telegram} target="_blank" rel="noreferrer">Telegram</a>
+                <a className="button button-primary" href={model.vendorContact?.whatsapp || '#'} target="_blank" rel="noreferrer">WhatsApp</a>
+                <a className="button button-secondary" href={model.vendorContact?.telegram || '#'} target="_blank" rel="noreferrer">Telegram</a>
               </div>
             </div>
 
@@ -785,7 +585,7 @@ function ModelProfilePage({ model }) {
       <div className="mobile-contact-bar" aria-label="Representative contact">
         <a
           className="button button-primary"
-          href={vendorContact.whatsapp}
+          href={model.vendorContact?.whatsapp || '#'}
           target="_blank"
           rel="noreferrer"
         >
@@ -794,7 +594,7 @@ function ModelProfilePage({ model }) {
 
         <a
           className="button button-secondary"
-          href={vendorContact.telegram}
+          href={model.vendorContact?.telegram || '#'}
           target="_blank"
           rel="noreferrer"
         >
@@ -840,7 +640,7 @@ function Footer() {
   )
 }
 
-function HomePage() {
+function HomePage({ models }) {
   return (
     <>
       <Header />
@@ -853,7 +653,7 @@ function HomePage() {
           eyebrow="Featured profiles"
           title="Featured Models"
           description="A curated row of professional bikini model profiles represented through sample vendor details."
-          models={featuredModels}
+          models={models.filter((model) => model.featured)}
         />
 
         <ModelRow
@@ -861,7 +661,7 @@ function HomePage() {
           eyebrow="Recently added"
           title="Discover More"
           description="Additional sample profiles for resortwear, swimwear, beauty, and lifestyle campaigns."
-          models={moreModels}
+          models={models.filter((model) => !model.featured)}
         />
 
         <BrowseSection
@@ -885,19 +685,105 @@ function HomePage() {
 }
 
 function App() {
-  const profileMatch = window.location.pathname.match(/^\/models\/(\d+)$/)
+  const [models, setModels] = useState([])
+  const [loadState, setLoadState] = useState('loading')
+  const [errorMessage, setErrorMessage] = useState('')
 
-  const profileModel = profileMatch
-    ? allModels.find((model) => model.id === Number(profileMatch[1]))
-    : null
+  useEffect(() => {
+    let isMounted = true
 
-  const isModelsPage = window.location.pathname === '/models'
+    async function loadModels() {
+      try {
+        const data = await getActiveModels()
 
-  if (profileMatch) {
-    return <ModelProfilePage model={profileModel} />
+        if (!isMounted) {
+          return
+        }
+
+        setModels(data)
+        setLoadState('ready')
+      } catch (error) {
+        console.error('Aurory model loading failed:', error)
+
+        if (!isMounted) {
+          return
+        }
+
+        setErrorMessage(
+          error instanceof Error
+            ? error.message
+            : 'Unable to load models from Supabase.',
+        )
+        setLoadState('error')
+      }
+    }
+
+    loadModels()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  if (loadState === 'loading') {
+    return (
+      <>
+        <Header />
+        <main>
+          <section className="section-block">
+            <div className="empty-state">
+              <h1>Loading models...</h1>
+              <p>Connecting to the Aurory model directory.</p>
+            </div>
+          </section>
+        </main>
+        <Footer />
+      </>
+    )
   }
 
-  return isModelsPage ? <AllModelsPage /> : <HomePage />
+  if (loadState === 'error') {
+    return (
+      <>
+        <Header />
+        <main>
+          <section className="section-block">
+            <div className="empty-state">
+              <h1>Unable to load models</h1>
+              <p>{errorMessage}</p>
+              <button
+                className="button button-dark"
+                type="button"
+                onClick={() => window.location.reload()}
+              >
+                Try again
+              </button>
+            </div>
+          </section>
+        </main>
+        <Footer />
+      </>
+    )
+  }
+
+  const pathname = window.location.pathname.replace(/\/+$/, '') || '/'
+
+  const profileMatch = pathname.match(/^\/models\/([^/]+)$/)
+  const profileModel = profileMatch
+    ? models.find(
+        (model) => model.slug === decodeURIComponent(profileMatch[1]),
+      )
+    : null
+
+  if (profileMatch) {
+    return <ModelProfilePage model={profileModel} models={models} />
+  }
+
+  if (pathname === '/models') {
+    return <AllModelsPage models={models} />
+  }
+
+  return <HomePage models={models} />
 }
 
 export default App
